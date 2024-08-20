@@ -1,13 +1,13 @@
-from .utils import Ray
-from .utils import Camera
-from .utils import Volume
-from .utils import generate_rays
-from .visualization import visualize_rays
+from .render_units import Ray, Camera, Volume, Point
+from .render import generate_rays
+from .visualization import visualize_rays, visualize_image
 
 __all__ = [
     "Ray",
     "Camera",
     "Volume",
+    "Point",
     "generate_rays",
     "visualize_rays",
+    "visualize_image",
 ]

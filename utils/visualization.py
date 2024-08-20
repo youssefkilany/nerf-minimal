@@ -1,4 +1,4 @@
-from .nerf_units import Ray, Camera, Volume
+from .render_units import Ray, Camera, Volume
 
 
 def visualize_rays_samples(

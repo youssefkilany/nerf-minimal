@@ -1,6 +1,6 @@
 """
 This file is a copy of load blender from nerf-pytorch repo, I use this script since it's compatible with the data used in training.
-link: https://github.com/yenchenlin/nerf-pytorch/blob/63a5a630c9abd62b0f21c08703d0ac2ea7d4b9dd/load_blender.py
+link: https://github.com/yenchenlin/nerf-pytorch/blob/63a5a630c9abd62b0f21c08703d0ac2ea7d4b9dd/load_dataset.py
 """
 
 import os
@@ -56,7 +56,7 @@ def pose_spherical(theta, phi, radius):
     return c2w
 
 
-def load_blender_data(basedir, testskip=1):
+def load_dataset_data(basedir, testskip=1):
     splits = ["train", "val", "test"]
     metas = {}
     for s in splits:
