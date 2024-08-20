@@ -1,6 +1,6 @@
 """
 This file is a copy of load blender from nerf-pytorch repo, I use this script since it's compatible with the data used in training.
-link: https://github.com/yenchenlin/nerf-pytorch/blob/63a5a630c9abd62b0f21c08703d0ac2ea7d4b9dd/load_dataset.py
+link: https://github.com/yenchenlin/nerf-pytorch/blob/63a5a630c9abd62b0f21c08703d0ac2ea7d4b9dd/load_blender.py
 """
 
 import os
@@ -90,16 +90,8 @@ def load_dataset_data(basedir, testskip=1):
     imgs = torch.cat(all_imgs)
     poses = torch.cat(all_poses)
 
-    H, W = imgs[0].shape[1:]
+    h, w = imgs[0].shape[1:]
     camera_angle_x = float(meta["camera_angle_x"])
-    focal = 0.5 * W / np.tan(0.5 * camera_angle_x)
+    focal = 0.5 * w / np.tan(0.5 * camera_angle_x)
 
-    render_poses = torch.stack(
-        [
-            pose_spherical(angle, -30.0, 4.0)
-            for angle in np.linspace(-180, 180, 40 + 1)[:-1]
-        ],
-        0,
-    )
-
-    return imgs, poses, render_poses, [H, W, focal], i_split
+    return [int(h), int(w), focal], imgs, poses, i_split

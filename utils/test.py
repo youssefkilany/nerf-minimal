@@ -34,3 +34,34 @@ def test_render_utils():
         dimensions=torch.tensor([2, 2, 2]),
     )
     visualize_rays(camera, rays, visualize_samples=True, num_smples=50, volume=volume)
+
+
+def test_model_train_loop():
+    from model import get_nerf_model, get_cuda_if_available
+    from train import train_nerf
+    from data import train_dataloader, val_dataloader
+
+    train_settings = {
+        "epochs_num": 1000,
+        "chunk": 1024,  # bigger chunk size requires more memory
+        "near": 6.0,
+        "far": 2.0,
+        "hwf": train_dataloader.dataset_settings_hwf,
+    }
+
+    log_settings = {
+        "save_every": 100,
+        "initial_epochs": 100,
+        "initial_save_every": 10,
+    }
+
+    nerf_model = get_nerf_model()
+
+    train_nerf(
+        nerf_model,
+        train_dataloader,
+        val_dataloader,
+        train_settings=train_settings,
+        log_settings=log_settings,
+        device=get_cuda_if_available(),
+    )

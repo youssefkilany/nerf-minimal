@@ -37,12 +37,11 @@ def setup_parser():
 
 
 if __name__ == "__main__":
-    from utils.test import test_render_utils, test_load_images
+    from utils.test import test_model_train_loop
     from utils import seed_everything
 
     parser, args = setup_parser()
 
     seed_everything(12321)
 
-    test_render_utils()
-    test_load_images()
+    test_model_train_loop()

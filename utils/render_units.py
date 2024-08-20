@@ -23,12 +23,12 @@ class Ray:
     origin: torch.Tensor
     direction: torch.Tensor
 
-    def to_input_tensor(self, device="cuda"):
+    def to_input_tensor(self, device):
         """
         Normalize and concatenate origin and direction tensors into a single input tensor.
 
         Args:
-            device (str, optional): Device to move the tensor to (default: "cuda")
+            device (str, optional): Device to move the tensor to
 
         Returns:
             torch.Tensor: Input tensor of shape (6,) with normalized origin and direction
