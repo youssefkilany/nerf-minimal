@@ -1,16 +1,48 @@
-import argparse
+def setup_parser():
+    import argparse
+    import re
 
-if __name__ == '__main__':
+    def render_size_type(arg_value, pat=re.compile(r"^(\d+)x(\d+)$")):
+        if not pat.match(arg_value):
+            raise argparse.ArgumentTypeError("invalid value")
+        h, w = pat.match(arg_value).groups()
+        return h, w
 
     # parse args for rendering an image
-    parser = argparse.ArgumentParser(description='Render an image using NeRF')
+    parser = argparse.ArgumentParser(
+        description="Render the scene from (one or more) (given or random) angles using NeRF"
+    )
 
-    parser.add_argument('--image_path', type=str, required=True, help='Path to the image to render')
-    parser.add_argument('--num_samples', type=int, default=64, help='Number of samples to use for rendering')
-    parser.add_argument('--num_rays', type=int, default=1024, help='Number of rays to use for rendering')
-    parser.add_argument('--render_size', type=int, default=512, help='Size of the rendered image')
-    parser.add_argument('--fov', type=float, default=30.0, help='Field of view for rendering')
+    parser.add_argument(
+        "--num_samples",
+        type=int,
+        default=1,
+        help="Number of rendered samples",
+    )
+
+    parser.add_argument(
+        "--num_rays", type=int, default=1024, help="Number of rays to use for rendering"
+    )
+
+    parser.add_argument(
+        "--render_size",
+        type=render_size_type,
+        default="128x128",
+        help="Size of the rendered image, in format: hxw, eg: 128x128",
+    )
 
     args = parser.parse_args()
 
-    print(f'{args = }')
+    return parser, args
+
+
+if __name__ == "__main__":
+    from utils.test import test_render_utils, test_load_images
+    from utils import seed_everything
+
+    parser, args = setup_parser()
+
+    seed_everything(12321)
+
+    test_render_utils()
+    test_load_images()

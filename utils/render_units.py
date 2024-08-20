@@ -6,6 +6,7 @@ import torch
 class Camera:
     position: torch.Tensor
     orientation: torch.Tensor
+    transformation: torch.Tensor
     image_width: int
     image_height: int
     fov: float = 90.0
@@ -22,12 +23,12 @@ class Ray:
     origin: torch.Tensor
     direction: torch.Tensor
 
-    def to_input_tensor(self, device="cpu"):
+    def to_input_tensor(self, device="cuda"):
         """
         Normalize and concatenate origin and direction tensors into a single input tensor.
 
         Args:
-            device (str, optional): Device to move the tensor to (default: "cpu")
+            device (str, optional): Device to move the tensor to (default: "cuda")
 
         Returns:
             torch.Tensor: Input tensor of shape (6,) with normalized origin and direction

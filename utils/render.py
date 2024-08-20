@@ -55,7 +55,7 @@ def generate_rays(camera: Camera) -> list[Ray]:
 
 
 def sample_points_along_ray(
-    ray: Ray, volume: Volume, n: int = 100, device="cpu"
+    ray: Ray, volume: Volume, n: int = 100, device="cuda"
 ) -> list[Point]:
     """
     Sample `n` points along a ray within a volume.
@@ -64,7 +64,7 @@ def sample_points_along_ray(
         ray: The ray to sample points from.
         volume: The volume to sample points within.
         n: The number of points to sample.
-        device: The device to perform the computation on (default: "cpu").
+        device: The device to perform the computation on (default: "cuda").
 
     Returns:
         A tensor of shape `(n, 3)` containing the sampled points in world coordinates.
@@ -82,7 +82,7 @@ def sample_points_along_ray(
 
 
 def sample_points_within_volume(
-    camera: Camera, volume: Volume, n: int = 100, device="cpu"
+    camera: Camera, volume: Volume, n: int = 100, device="cuda"
 ) -> list[Point]:
     return [
         sample_points_along_ray(ray, volume, n, device) for ray in generate_rays(camera)
