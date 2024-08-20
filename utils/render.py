@@ -1,6 +1,5 @@
 import torch
-from .nerf_units import Ray, Camera, Volume, Point
-from .visualization import visualize_rays
+from .render_units import Ray, Camera, Volume, Point
 
 
 def generate_rays(camera: Camera) -> list[Ray]:
@@ -74,39 +73,17 @@ def sample_points_along_ray(
     volume_end = volume.origin + volume.dimensions
     # Sample points along the ray
     sampled_points = []
-    for i in torch.linspace(0, 1, n):
-        sampled_point = ray.origin + i * ray.direction
+    for step in torch.linspace(0, 1, n):
+        sampled_point = ray.origin + step * ray.direction
         if all(volume.origin <= sampled_point) and all(sampled_point < volume_end):
             sampled_points.append(Point(position=sampled_point))
 
     return sampled_points
 
 
-def sample_points_within_camera(
+def sample_points_within_volume(
     camera: Camera, volume: Volume, n: int = 100, device="cpu"
 ) -> list[Point]:
     return [
         sample_points_along_ray(ray, volume, n, device) for ray in generate_rays(camera)
     ]
-
-
-if __name__ == "__main__":
-    from visualization import visualize_rays
-
-    camera = Camera(
-        position=torch.tensor([0, 0, 0]),
-        orientation=torch.eye(3),
-        image_width=3,
-        image_height=3,
-        fov=90.0,
-        near=0.0,
-        far=1.0,
-    )
-    rays = generate_rays(camera)
-
-    volume = Volume(
-        origin=torch.tensor([-1, -1, -1]),
-        dimensions=torch.tensor([2, 2, 2]),
-    )
-
-    visualize_rays(camera, rays, visualize_samples=True, num_smples=50, volume=volume)
