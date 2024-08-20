@@ -1,4 +1,4 @@
-from nerf_units import Ray, Camera, Volume, Point
+from .nerf_units import Ray, Camera, Volume
 
 
 def visualize_rays_samples(
@@ -88,3 +88,11 @@ def visualize_rays_mayavi(rays: list[Ray]):
     )
 
     mlab.show()
+
+
+def visualize_image(tensor_image):
+    import matplotlib.pyplot as plt
+
+    plt.imshow(tensor_image.permute(1, 2, 0).numpy())
+    plt.axis("off")
+    plt.show()

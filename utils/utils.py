@@ -1,6 +1,6 @@
 import torch
-from nerf_units import Ray, Camera, Volume, Point
-from visualization import visualize_rays
+from .nerf_units import Ray, Camera, Volume, Point
+from .visualization import visualize_rays
 
 
 def generate_rays(camera: Camera) -> list[Ray]:
